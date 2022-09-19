@@ -27,24 +27,38 @@ class App extends Component {
     this.setState({ filter: event.currentTarget.value });
   };
 
-  visibleContactList = () => {
-    const { contacts, filter } = this.state
+  // visibleContactList = () => {};
 
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter)
-    )
+  filterContact = () => {
+    if (this.state.filter === '') {
+      return this.state.contacts;
+    } else {
+      const { contacts, filter } = this.state;
+
+      const normalizedFilter = filter.toLowerCase();
+
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(normalizedFilter)
+      );
+    }
   };
 
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !==id)
+    }))
+  }
+
   render() {
-    const visibleContact = this.visibleContactList()
     return (
       <>
         <ContactForm addContacts={this.addContacts} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter} />
         <ContactList
-          contactsFilter={visibleContact}
+          filterContact={this.filterContact}
           addContacts={this.state.contacts}
+          deleteContact = {this.deleteContact}
         />
       </>
     );
