@@ -1,6 +1,4 @@
-
-// import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 
 const ContactForm = ({ handleChange, handleSubmit }) => {
 
@@ -41,6 +39,9 @@ return (
     );
 }
 
-
+ContactForm.propTypes = {
+  handleChange: PropTypes.func,
+  handleSubmit: PropTypes.func,
+};
   
 export default ContactForm;

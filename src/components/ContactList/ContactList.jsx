@@ -1,4 +1,4 @@
-import App from "components/App";
+import PropTypes from 'prop-types';
 
 const ContactList = ({ contactsList, deleteContact }) => {
   // console.log(addContacts);
@@ -15,6 +15,11 @@ const ContactList = ({ contactsList, deleteContact }) => {
       </ul>
     </div>
   );
+};
+
+ContactList.propTypes = {
+  contactsList: PropTypes.func,
+  deleteContact: PropTypes.func,
 };
 
 export default ContactList;

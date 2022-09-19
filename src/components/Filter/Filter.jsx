@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import Title from '../Title/Title';
 const Filter = ({filterContact }) => {
   return (
@@ -9,4 +11,9 @@ const Filter = ({filterContact }) => {
     </>
   );
 };
+
+Filter.propTypes = {
+  filterChange: PropTypes.func,
+};
+
 export default Filter;
