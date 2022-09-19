@@ -1,10 +1,10 @@
 import Title from '../Title/Title';
-const Filter = ({value, onChange }) => {
+const Filter = ({filterContact }) => {
   return (
     <>
       <Title title="Find contacts by name" />
       <label>
-        <input type="text" name='filter' value={value} onChange={onChange}/>
+        <input type="text" onChange={e=>{filterContact(e)} } />
       </label>
     </>
   );

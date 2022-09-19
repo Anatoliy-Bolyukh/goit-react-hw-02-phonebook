@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import Notiflix from 'notiflix';
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
-
 import { nanoid } from 'nanoid';
+
 
 class App extends Component {
   state = {
@@ -17,17 +17,44 @@ class App extends Component {
     filter: '',
   };
 
-  addContacts = newContacts => {
-    this.setState(prev => ({
-      contacts: [...prev.contacts, newContacts],
-    }));
+  handleChange = event => {
+    const { name, value } = event.currentTarget;
+    this.setState({ [name]: value });
   };
+
+  handleSubmit = event => {
+    event.preventDefault()
+    
+     const name = event.currentTarget.elements.name.value;
+    const number = event.currentTarget.elements.number.value;
+
+    const normalizedName = name.toLowerCase();
+    
+    const some = this.state.contacts.some(
+      contact => contact.name.toLowerCase() === normalizedName
+    )
+  
+    if (some) {
+      return Notiflix.Notify.failure(`${name}  is already in contacts`);
+    }
+
+    const dataContacts = {
+      id: nanoid(),
+      name,
+      number,
+    }
+    
+
+    this.setState(prev => ({
+      contacts: [...prev.contacts, dataContacts],
+    }));
+  }
+
+
 
   changeFilter = event => {
-    this.setState({ filter: event.currentTarget.value });
-  };
-
-  // visibleContactList = () => {};
+      this.setState({ filter: event.currentTarget.value });
+    };
 
   filterContact = () => {
     if (this.state.filter === '') {
@@ -41,28 +68,39 @@ class App extends Component {
         contact.name.toLowerCase().includes(normalizedFilter)
       );
     }
-  };
-
-  deleteContact = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !==id)
-    }))
   }
 
-  render() {
-    return (
-      <>
-        <ContactForm addContacts={this.addContacts} />
-        <h2>Contacts</h2>
-        <Filter value={this.state.filter} onChange={this.changeFilter} />
-        <ContactList
-          filterContact={this.filterContact}
-          addContacts={this.state.contacts}
-          deleteContact = {this.deleteContact}
-        />
-      </>
-    );
+
+    deleteContact = id => {
+      this.setState(prevState => ({
+        contacts: prevState.contacts.filter(contact => contact.id !== id)
+      }));
+    };
+  
+
+    render() {
+      return (
+        <div style={{
+          display: "flex",
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          
+          <h1>Phonebook</h1>
+          <ContactForm
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
+          <h2>Contacts</h2>
+          <Filter filterContact={this.changeFilter} />
+          <ContactList
+            contactsList={this.filterContact}
+            deleteContact={this.deleteContact}
+          />
+        </div>
+      );
+    }
   }
-}
 
 export default App;

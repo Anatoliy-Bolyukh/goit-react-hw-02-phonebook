@@ -1,13 +1,15 @@
-const ContactList = ({ filterContact, deleteContact }) => {
+import App from "components/App";
+
+const ContactList = ({ contactsList, deleteContact }) => {
   // console.log(addContacts);
   return (
     <div>
       <ul>
-        {filterContact().map(({ id, name, number }) => (
+        {contactsList().map(({ id, name, number }) => (
             <li key={id}>
                 <p>{name}: {number}</p>
                 
-            <button onClick={event=>deleteContact(id)}>delete</button>
+            <button onClick={() => deleteContact(id)}>delete</button>
           </li>
         ))}
       </ul>
