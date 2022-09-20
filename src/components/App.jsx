@@ -17,10 +17,6 @@ class App extends Component {
     filter: '',
   };
 
-  handleChange = event => {
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-  };
 
   handleSubmit = event => {
     event.preventDefault()
@@ -36,6 +32,7 @@ class App extends Component {
   
     if (some) {
       return Notiflix.Notify.failure(`${name}  is already in contacts`);
+
     }
 
     const dataContacts = {
@@ -43,15 +40,14 @@ class App extends Component {
       name,
       number,
     }
-    
+
 
     this.setState(prev => ({
       contacts: [...prev.contacts, dataContacts],
     }));
+
   }
-
-
-
+  
   changeFilter = event => {
       this.setState({ filter: event.currentTarget.value });
     };
@@ -70,12 +66,13 @@ class App extends Component {
     }
   }
 
-
     deleteContact = id => {
       this.setState(prevState => ({
         contacts: prevState.contacts.filter(contact => contact.id !== id)
       }));
-    };
+  };
+  
+
   
 
     render() {
@@ -89,7 +86,6 @@ class App extends Component {
           
           <h1>Phonebook</h1>
           <ContactForm
-            handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
           />
           <h2>Contacts</h2>
